@@ -306,17 +306,6 @@
         } else {
             backToTop.classList.remove('visible');
         }
-
-        // Update active navigation link
-        const sections = document.querySelectorAll('.container');
-        const navLinks = document.querySelectorAll('.nav-link');
-        sections.forEach((section, index) => {
-            const rect = section.getBoundingClientRect();
-            if (rect.top <= 60 && rect.bottom >= 60) {
-                navLinks.forEach(link => link.classList.remove('active'));
-                navLinks[index].classList.add('active');
-            }
-        });
     });
 
     backToTop.addEventListener('click', () => {
@@ -356,6 +345,9 @@
             e.preventDefault();
             const targetId = link.getAttribute('href').substring(1);
             const targetSection = document.getElementById(targetId);
+            
+            navLinks.forEach(navLink => navLink.classList.remove('active'));
+            link.classList.add('active');
             
             containers.forEach(container => {
                 if (container !== targetSection) {
