@@ -339,10 +339,12 @@
     });
 
     // Hide other sections when navigating
+    let userNavigation = false;
     const navLinks = document.querySelectorAll('.nav-link');
     navLinks.forEach(link => {
         link.addEventListener('click', (e) => {
             e.preventDefault();
+            userNavigation = true;
             const targetId = link.getAttribute('href').substring(1);
             const targetSection = document.getElementById(targetId);
             
@@ -367,7 +369,24 @@
             });
             
             targetSection.scrollIntoView({ behavior: 'smooth' });
+            setTimeout(() => { userNavigation = false; }, 1000);
         });
+    });
+
+    // Disable scroll-based highlighting when user navigates explicitly
+    window.addEventListener('scroll', () => {
+        if (!userNavigation) {
+            const sections = document.querySelectorAll('.container');
+            sections.forEach((section, index) => {
+                const rect = section.getBoundingClientRect();
+                if (rect.top <= 60 && rect.bottom >= 60) {
+                    navLinks.forEach(link => link.classList.remove('active'));
+                    if (navLinks[index]) {
+                        navLinks[index].classList.add('active');
+                    }
+                }
+            });
+        }
     });
 </script>
 </body>
