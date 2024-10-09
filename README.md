@@ -108,6 +108,8 @@
     .collapsible {
         cursor: pointer;
         position: relative;
+        font-weight: bold;
+        color: var(--accent-color);
     }
     .collapsible::after {
         content: '+';
@@ -123,7 +125,7 @@
     .content {
         max-height: 0;
         overflow: hidden;
-        transition: max-height var(--transition-speed);
+        transition: max-height var(--transition-speed) ease-in-out;
     }
     .content.open {
         max-height: 500px; /* Adjust as needed */
@@ -271,7 +273,7 @@
 </div>
 
 <button class="toggle-theme" id="themeButton" aria-label="Toggle Theme">Toggle Theme</button>
-<button class="back-to-top" id="backToTop" aria-label="Back to Top">&#8679;</button>
+<button class="back-to-top" id="backToTop" aria-label="Back to Top">⬆</button>
 
 <script>
     // Theme Toggle
