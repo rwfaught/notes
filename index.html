@@ -109,13 +109,13 @@
         background: var(--container-bg);
         backdrop-filter: blur(10px);
         border-radius: 12px;
-        opacity: 1;
-        transform: translateY(0);
+        opacity: 0;
+        transform: translateY(20px);
         transition: opacity 0.6s ease-out, transform 0.6s ease-out;
     }
-    .hidden {
-        opacity: 0;
-        position: absolute;
+    .visible {
+        opacity: 1;
+        transform: translateY(0);
     }
     h1, h2 {
         font-weight: 300;
@@ -253,13 +253,14 @@
     </div>
     <button class="nav-arrow" id="navArrowRight" aria-label="Scroll Right">&#8250;</button>
 </div>
-<div class="container" id="section1">
+<button class="toggle-theme" id="themeButton" aria-label="Toggle Theme">Toggle Theme</button>
+<div class="container visible" id="section1">
     <h1>The Beauty of Simplicity</h1>
     <p>The art of finding beauty in simplicity is often overlooked in our fast-paced, detail-obsessed world. Yet, there’s something profound about simplicity—whether it’s in design, nature, or life itself. Minimalism in art or architecture, for instance, strips away the excess to reveal the core essence of a piece, allowing viewers to engage with it on a deeper level. In a similar way, simplifying our daily lives can lead to greater clarity and peace. By eliminating distractions, whether physical or mental, we make room for the things that truly matter.</p>
 </div>
 
 <!-- Additional sections added to triple the content -->
-<div class="container hidden" id="section2">
+<div class="container" id="section2">
     <h2>Nature's Simplicity</h2>
     <p>Consider nature. A single tree standing alone in a field can evoke just as much awe as a dense forest. Its branches, reaching toward the sky, don’t need companions to make a statement. Its simplicity is its strength.</p>
     <div class="collapsible">Read More</div>
@@ -268,17 +269,17 @@
     </div>
 </div>
 
-<div class="container hidden" id="section3">
+<div class="container" id="section3">
     <h2>The Minimalist Movement</h2>
     <p>There’s a reason why movements like minimalism have gained traction in recent years. In a world bombarded with stimuli, cutting down to what’s necessary can be a form of rebellion. It’s a declaration that our value doesn’t lie in the things we accumulate or the endless tasks we take on, but in who we are, how we connect with others, and the quality of experiences we choose to engage with.</p>
 </div>
 
-<div class="container hidden" id="section4">
+<div class="container" id="section4">
     <h2>Embracing Mindfulness</h2>
     <p>In a way, embracing simplicity is a call to <span class="tooltip" data-tooltip="Mindfulness is the practice of being aware and present in the moment.">mindfulness</span>. It’s about being present and appreciating the little things that might otherwise go unnoticed. When we’re no longer distracted by the noise, we can focus on the subtleties—the way the light filters through a window, the taste of a morning coffee, or the joy of an unhurried conversation.</p>
 </div>
 
-<div class="container hidden" id="section5">
+<div class="container" id="section5">
     <h2>The Role of Technology in Simplicity</h2>
     <p>In an age where technology often adds layers of complexity to our lives, it can also be a powerful tool for achieving simplicity. Thoughtfully designed tech solutions streamline tasks, reduce clutter, and help us focus on what truly matters.</p>
     <div class="collapsible">Read More</div>
@@ -287,7 +288,7 @@
     </div>
 </div>
 
-<div class="container hidden" id="section6">
+<div class="container" id="section6">
     <h2>Simplicity in Everyday Life</h2>
     <p>Embracing simplicity doesn't require drastic life changes. It can be as straightforward as decluttering a workspace, practicing gratitude, or setting aside time for reflection.</p>
     <div class="collapsible">Read More</div>
@@ -315,7 +316,12 @@
 
     // Scroll Progress Bar and Back to Top Button
     const progressBar = document.getElementById('progressBar');
-    const backToTop = document.getElementById('backToTop');
+    const backToTop = document.createElement('button');
+    backToTop.id = 'backToTop';
+    backToTop.className = 'back-to-top';
+    backToTop.innerText = '⬆';
+    document.body.appendChild(backToTop);
+
     window.addEventListener('scroll', () => {
         const totalHeight = document.body.scrollHeight - window.innerHeight;
         const progress = (window.scrollY / totalHeight) * 100;
@@ -343,12 +349,9 @@
             
             // Hide all sections and make target visible
             document.querySelectorAll('.container').forEach(section => {
-                if (section !== targetSection) {
-                    section.classList.add('hidden');
-                } else {
-                    section.classList.remove('hidden');
-                }
+                section.classList.remove('visible');
             });
+            targetSection.classList.add('visible');
             
             // Scroll to the target section
             targetSection.scrollIntoView({ behavior: 'smooth' });
