@@ -82,7 +82,7 @@
         background: none;
         border: 2px solid var(--accent-color);
         color: var(--accent-color);
-        padding: 8px 15px;
+        padding: 8px;
         cursor: pointer;
         font-size: 1.2em;
         transition: background var(--transition-speed), color var(--transition-speed);
@@ -109,13 +109,13 @@
         background: var(--container-bg);
         backdrop-filter: blur(10px);
         border-radius: 12px;
-        opacity: 0;
-        transform: translateY(20px);
-        transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-    }
-    .container.visible {
         opacity: 1;
         transform: translateY(0);
+        transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+    .hidden {
+        opacity: 0;
+        position: absolute;
     }
     h1, h2 {
         font-weight: 300;
@@ -174,7 +174,7 @@
         border: none;
         color: var(--bg-color);
         padding: 10px 15px;
-        border-radius: 50%;
+        border-radius: 5px;
         cursor: pointer;
         font-size: 1.5em;
         display: none;
@@ -259,7 +259,7 @@
 </div>
 
 <!-- Additional sections added to triple the content -->
-<div class="container" id="section2">
+<div class="container hidden" id="section2">
     <h2>Nature's Simplicity</h2>
     <p>Consider nature. A single tree standing alone in a field can evoke just as much awe as a dense forest. Its branches, reaching toward the sky, don’t need companions to make a statement. Its simplicity is its strength.</p>
     <div class="collapsible">Read More</div>
@@ -268,17 +268,17 @@
     </div>
 </div>
 
-<div class="container" id="section3">
+<div class="container hidden" id="section3">
     <h2>The Minimalist Movement</h2>
     <p>There’s a reason why movements like minimalism have gained traction in recent years. In a world bombarded with stimuli, cutting down to what’s necessary can be a form of rebellion. It’s a declaration that our value doesn’t lie in the things we accumulate or the endless tasks we take on, but in who we are, how we connect with others, and the quality of experiences we choose to engage with.</p>
 </div>
 
-<div class="container" id="section4">
+<div class="container hidden" id="section4">
     <h2>Embracing Mindfulness</h2>
     <p>In a way, embracing simplicity is a call to <span class="tooltip" data-tooltip="Mindfulness is the practice of being aware and present in the moment.">mindfulness</span>. It’s about being present and appreciating the little things that might otherwise go unnoticed. When we’re no longer distracted by the noise, we can focus on the subtleties—the way the light filters through a window, the taste of a morning coffee, or the joy of an unhurried conversation.</p>
 </div>
 
-<div class="container" id="section5">
+<div class="container hidden" id="section5">
     <h2>The Role of Technology in Simplicity</h2>
     <p>In an age where technology often adds layers of complexity to our lives, it can also be a powerful tool for achieving simplicity. Thoughtfully designed tech solutions streamline tasks, reduce clutter, and help us focus on what truly matters.</p>
     <div class="collapsible">Read More</div>
@@ -287,7 +287,7 @@
     </div>
 </div>
 
-<div class="container" id="section6">
+<div class="container hidden" id="section6">
     <h2>Simplicity in Everyday Life</h2>
     <p>Embracing simplicity doesn't require drastic life changes. It can be as straightforward as decluttering a workspace, practicing gratitude, or setting aside time for reflection.</p>
     <div class="collapsible">Read More</div>
@@ -296,5 +296,87 @@
     </div>
 </div>
 
-<div class="container" id="section7">
-    <h2>The Philosophy of Minimalism</h2>
+<script>
+    // Theme Toggle
+    const themeButton = document.getElementById('themeButton');
+    const currentTheme = localStorage.getItem('theme') || 'light';
+    document.body.setAttribute('data-theme', currentTheme);
+
+    themeButton.addEventListener('click', () => {
+        let theme = document.body.getAttribute('data-theme');
+        if (theme === 'light') {
+            document.body.setAttribute('data-theme', 'dark');
+            localStorage.setItem('theme', 'dark');
+        } else {
+            document.body.setAttribute('data-theme', 'light');
+            localStorage.setItem('theme', 'light');
+        }
+    });
+
+    // Scroll Progress Bar and Back to Top Button
+    const progressBar = document.getElementById('progressBar');
+    const backToTop = document.getElementById('backToTop');
+    window.addEventListener('scroll', () => {
+        const totalHeight = document.body.scrollHeight - window.innerHeight;
+        const progress = (window.scrollY / totalHeight) * 100;
+        progressBar.style.width = progress + '%';
+
+        // Show or hide back to top button
+        if (window.scrollY > 300) {
+            backToTop.classList.add('visible');
+        } else {
+            backToTop.classList.remove('visible');
+        }
+    });
+
+    backToTop.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Hide other sections when navigating
+    const navLinks = document.querySelectorAll('.nav-link');
+    navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const targetId = link.getAttribute('href').substring(1);
+            const targetSection = document.getElementById(targetId);
+            
+            // Hide all sections and make target visible
+            document.querySelectorAll('.container').forEach(section => {
+                if (section !== targetSection) {
+                    section.classList.add('hidden');
+                } else {
+                    section.classList.remove('hidden');
+                }
+            });
+            
+            // Scroll to the target section
+            targetSection.scrollIntoView({ behavior: 'smooth' });
+            
+            // Update active link
+            navLinks.forEach(navLink => navLink.classList.remove('active'));
+            link.classList.add('active');
+        });
+    });
+
+    // Navigation bar scroll buttons
+    const navbar = document.getElementById('navbar');
+    const navArrowLeft = document.getElementById('navArrowLeft');
+    const navArrowRight = document.getElementById('navArrowRight');
+
+    navArrowLeft.addEventListener('click', () => {
+        navbar.scrollBy({ left: -200, behavior: 'smooth' });
+    });
+
+    navArrowRight.addEventListener('click', () => {
+        navbar.scrollBy({ left: 200, behavior: 'smooth' });
+    });
+
+    // Mouse scroll wheel to navigate the navbar
+    navbar.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        navbar.scrollBy({ left: e.deltaY < 0 ? -100 : 100, behavior: 'smooth' });
+    });
+</script>
+</body>
+</html>
