@@ -181,14 +181,14 @@
     }
     /* Toggle Theme Button */
     .toggle-theme {
-        position: absolute;
+        position: fixed;
         bottom: 20px;
         right: 20px;
         background: var(--accent-color);
         border: none;
         color: var(--bg-color);
         padding: 10px 15px;
-        border-radius: 0%;
+        border-radius: 50%;
         cursor: pointer;
         font-size: 1em;
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
@@ -320,7 +320,7 @@
     </div>
     <button class="nav-arrow ripple" id="navArrowRight" aria-label="Scroll Right">&#8250;</button>
 </div>
-<button class="toggle-theme" id="themeButton" aria-label="Toggle Theme">Toggle Theme</button>
+<button class="toggle-theme ripple" id="themeButton" aria-label="Toggle Theme">Toggle Theme</button>
 <button class="back-to-top" id="backToTopButton" aria-label="Back to Top">&#8679;</button>
 <div class="container visible" id="section1">
     <h1>The Beauty of Simplicity</h1>
@@ -349,92 +349,4 @@
 
 <div class="container" id="section5">
     <h2>The Role of Technology in Simplicity</h2>
-    <p>In an age where technology often adds layers of complexity to our lives, it can also be a powerful tool for achieving simplicity. Thoughtfully designed tech solutions streamline tasks, reduce clutter, and help us focus on what truly matters.</p>
-</div>
-
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        // Scroll Navigation using Mouse Wheel
-        const navbar = document.getElementById('navbar');
-        navbar.addEventListener('wheel', (e) => {
-            if (e.target === navbar) {
-                e.preventDefault();
-                navbar.scrollLeft += e.deltaY * 2; // Adjust scroll speed as needed
-            }
-        });
-        // Scroll Navigation Arrows
-        const navArrowLeft = document.getElementById('navArrowLeft');
-        const navArrowRight = document.getElementById('navArrowRight');
-        
-        navArrowLeft.addEventListener('click', () => {
-            navbar.scrollLeft -= 100; // Adjust scroll amount as needed
-        });
-        
-        navArrowRight.addEventListener('click', () => {
-            navbar.scrollLeft += 100;
-        });
-
-        // Toggle Theme
-        const themeButton = document.getElementById('themeButton');
-        themeButton.addEventListener('click', () => {
-            document.documentElement.dataset.theme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
-        });
-
-        // Scroll Progress Bar
-        window.addEventListener('scroll', () => {
-            const scrollTop = window.pageYOffset;
-            const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            const scrollPercent = (scrollTop / docHeight) * 100;
-            document.getElementById('progressBar').style.width = `${scrollPercent}%`;
-        });
-
-        // Back to Top Button
-        const backToTopButton = document.getElementById('backToTopButton');
-        window.addEventListener('scroll', () => {
-            if (window.pageYOffset > 300) {
-                backToTopButton.classList.add('visible');
-            } else {
-                backToTopButton.classList.remove('visible');
-            }
-        });
-
-        backToTopButton.addEventListener('click', () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-
-        // Collapsible Sections
-        const collapsibles = document.querySelectorAll('.collapsible');
-        collapsibles.forEach(collapsible => {
-            collapsible.addEventListener('click', () => {
-                collapsible.classList.toggle('active');
-                const content = collapsible.nextElementSibling;
-                content.classList.toggle('open');
-            });
-        });
-
-        // Navigation Links
-        const navLinks = document.querySelectorAll('.nav-link');
-        navLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const targetId = link.getAttribute('href').substring(1);
-                const targetSection = document.getElementById(targetId);
-
-                // Hide all sections
-                document.querySelectorAll('.container').forEach(container => {
-                    container.classList.remove('visible');
-                });
-
-                // Show target section
-                targetSection.classList.add('visible');
-                targetSection.scrollIntoView({ behavior: 'smooth' });
-
-                // Mark active link
-                navLinks.forEach(nav => nav.classList.remove('active'));
-                link.classList.add('active');
-            });
-        });
-    });
-</script>
-</body>
-</html>
+    <p>In an age where technology often adds layers of complexity to our lives, it can also
