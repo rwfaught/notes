@@ -104,20 +104,25 @@
     /* Container */
     .container {
         max-width: 800px;
-        margin: 120px auto 50px auto;
+        width: 90%;
+        height: 80vh;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
         padding: 20px;
         background: var(--container-bg);
         backdrop-filter: blur(10px);
         border-radius: 12px;
         opacity: 0;
-        transform: translateY(20px);
-        transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-        display: none;
+        transition: opacity 0.6s ease-out;
+        z-index: 10;
     }
     .visible {
-        display: block;
         opacity: 1;
-        transform: translateY(0);
+    }
+    .faded-out {
+        opacity: 0.1;
     }
     h1, h2 {
         font-weight: 300;
@@ -214,8 +219,12 @@
     /* Responsive Design */
     @media (max-width: 600px) {
         .container {
-            margin: 100px 20px 50px 20px;
-            padding: 15px;
+            width: 90%;
+            height: auto;
+            top: 10%;
+            transform: translate(-50%, 0);
+            position: relative;
+            margin-bottom: 20px;
         }
         .navbar a {
             margin: 0 10px;
@@ -352,12 +361,14 @@
             // Hide all sections and make target visible
             document.querySelectorAll('.container').forEach(section => {
                 section.classList.remove('visible');
+                section.classList.add('faded-out');
             });
+            targetSection.classList.remove('faded-out');
             targetSection.classList.add('visible');
             
-            // Scroll to the target section
-            targetSection.scrollIntoView({ behavior: 'smooth' });
-            
+            // Scroll to the target section (in case it's off screen)
+            targetSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
             // Update active link
             navLinks.forEach(navLink => navLink.classList.remove('active'));
             link.classList.add('active');
@@ -381,6 +392,16 @@
     navbar.addEventListener('wheel', (e) => {
         e.preventDefault();
         navbar.scrollBy({ left: e.deltaY < 0 ? -100 : 100, behavior: 'smooth' });
+    });
+
+    // Collapsible sections logic
+    const collapsibles = document.querySelectorAll('.collapsible');
+    collapsibles.forEach(collapsible => {
+        collapsible.addEventListener('click', () => {
+            collapsible.classList.toggle('active');
+            const content = collapsible.nextElementSibling;
+            content.classList.toggle('open');
+        });
     });
 </script>
 </body>
