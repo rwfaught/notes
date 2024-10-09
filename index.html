@@ -48,7 +48,7 @@
     }
     .navbar {
         display: flex;
-        overflow-x: auto;
+        overflow: hidden;
         scroll-behavior: smooth;
         max-width: 80%;
         white-space: nowrap;
@@ -59,7 +59,6 @@
         color: var(--text-color);
         font-weight: 400;
         position: relative;
-        transition: color var(--transition-speed);
     }
     .navbar a.active {
         color: var(--accent-color);
@@ -79,9 +78,6 @@
     .navbar a.active::after {
         width: 100%;
     }
-    .navbar a:hover {
-        color: var(--accent-color);
-    }
     .nav-arrow {
         background: none;
         border: 2px solid var(--accent-color);
@@ -89,13 +85,11 @@
         padding: 8px;
         cursor: pointer;
         font-size: 1.2em;
-        border-radius: 8px;
-        transition: background var(--transition-speed), color var(--transition-speed), transform var(--transition-speed);
+        transition: background var(--transition-speed), color var(--transition-speed);
     }
     .nav-arrow:hover {
         background: var(--accent-color);
         color: var(--bg-color);
-        transform: scale(1.1);
     }
     /* Scroll Progress Bar */
     #progressBar {
@@ -110,39 +104,24 @@
     /* Container */
     .container {
         max-width: 800px;
-        width: 90%;
-        height: auto;
-        margin: 150px auto 50px auto;
+        margin: 120px auto 50px auto;
         padding: 20px;
         background: var(--container-bg);
         backdrop-filter: blur(10px);
-        border-radius: 20px;
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        border-radius: 12px;
         opacity: 0;
         transform: translateY(20px);
         transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-        z-index: 10;
         display: none;
     }
     .visible {
-        opacity: 1;
         display: block;
+        opacity: 1;
         transform: translateY(0);
     }
     h1, h2 {
         font-weight: 300;
         color: var(--accent-color);
-        background-image: linear-gradient(45deg, var(--accent-color), #ffa7c4);
-        background-clip: text;
-        -webkit-background-clip: text;
-        color: transparent;
-    }
-    h1:hover, h2:hover {
-        animation: shimmer 1.5s infinite;
-    }
-    @keyframes shimmer {
-        0% { background-position: -500px; }
-        100% { background-position: 500px; }
     }
     p {
         line-height: 1.6;
@@ -154,10 +133,6 @@
         position: relative;
         font-weight: bold;
         color: var(--accent-color);
-        transition: color var(--transition-speed);
-    }
-    .collapsible:hover {
-        color: #ffa7c4;
     }
     .collapsible::after {
         content: '+';
@@ -187,14 +162,10 @@
         border: none;
         color: var(--bg-color);
         padding: 10px 15px;
-        border-radius: 50%;
+        border-radius: 5px;
         cursor: pointer;
         font-size: 1em;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        transition: background var(--transition-speed), color var(--transition-speed), transform var(--transition-speed);
-    }
-    .toggle-theme:hover {
-        transform: rotate(20deg) scale(1.1);
+        transition: background var(--transition-speed), color var(--transition-speed);
     }
     /* Back to Top Button */
     .back-to-top {
@@ -211,24 +182,16 @@
         display: none;
         align-items: center;
         justify-content: center;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        transition: background var(--transition-speed), color var(--transition-speed), transform var(--transition-speed);
+        transition: background var(--transition-speed), color var(--transition-speed);
     }
     .back-to-top.visible {
         display: flex;
-    }
-    .back-to-top:hover {
-        transform: scale(1.1);
     }
     /* Tooltip */
     .tooltip {
         position: relative;
         cursor: pointer;
         color: var(--accent-color);
-        transition: color var(--transition-speed);
-    }
-    .tooltip:hover {
-        color: #ffa7c4;
     }
     .tooltip::after {
         content: attr(data-tooltip);
@@ -248,38 +211,11 @@
     .tooltip:hover::after {
         opacity: 1;
     }
-    /* Ripple Effect on Buttons */
-    .ripple {
-        position: relative;
-        overflow: hidden;
-    }
-    .ripple::after {
-        content: '';
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        top: 0;
-        left: 0;
-        pointer-events: none;
-        background: rgba(255, 255, 255, 0.4);
-        transform: scale(0);
-        opacity: 0;
-        transition: transform 0.4s, opacity 0.6s;
-    }
-    .ripple:active::after {
-        transform: scale(2);
-        opacity: 1;
-        transition: 0s;
-    }
     /* Responsive Design */
     @media (max-width: 600px) {
         .container {
-            width: 90%;
-            height: auto;
-            top: 10%;
-            transform: translate(-50%, 0);
-            position: relative;
-            margin-bottom: 20px;
+            margin: 100px 20px 50px 20px;
+            padding: 15px;
         }
         .navbar a {
             margin: 0 10px;
@@ -290,7 +226,7 @@
 <body>
 <div id="progressBar"></div>
 <div class="navbar-container">
-    <button class="nav-arrow ripple" id="navArrowLeft" aria-label="Scroll Left">&#8249;</button>
+    <button class="nav-arrow" id="navArrowLeft" aria-label="Scroll Left">&#8249;</button>
     <div class="navbar" id="navbar">
         <a href="#section1" class="nav-link">Home</a>
         <a href="#section2" class="nav-link">Nature</a>
@@ -317,9 +253,9 @@
         <a href="#section23" class="nav-link">Empathy</a>
         <a href="#section24" class="nav-link">Love</a>
     </div>
-    <button class="nav-arrow ripple" id="navArrowRight" aria-label="Scroll Right">&#8250;</button>
+    <button class="nav-arrow" id="navArrowRight" aria-label="Scroll Right">&#8250;</button>
 </div>
-<button class="toggle-theme ripple" id="themeButton" aria-label="Toggle Theme">Toggle Theme</button>
+<button class="toggle-theme" id="themeButton" aria-label="Toggle Theme">Toggle Theme</button>
 <div class="container visible" id="section1">
     <h1>The Beauty of Simplicity</h1>
     <p>The art of finding beauty in simplicity is often overlooked in our fast-paced, detail-obsessed world. Yet, there’s something profound about simplicity—whether it’s in design, nature, or life itself. Minimalism in art or architecture, for instance, strips away the excess to reveal the core essence of a piece, allowing viewers to engage with it on a deeper level. In a similar way, simplifying our daily lives can lead to greater clarity and peace. By eliminating distractions, whether physical or mental, we make room for the things that truly matter.</p>
@@ -446,8 +382,6 @@
         e.preventDefault();
         navbar.scrollBy({ left: e.deltaY < 0 ? -100 : 100, behavior: 'smooth' });
     });
-
-    // Collapsible sections logic
-    const collapsibles = document.querySelectorAll('.collapsible');
-    collapsibles.forEach(collapsible => {
-        collapsible.addEventListener('click',
+</script>
+</body>
+</html>
