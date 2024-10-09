@@ -358,7 +358,7 @@
         const navbar = document.getElementById('navbar');
         navbar.addEventListener('wheel', (e) => {
             e.preventDefault();
-            navbar.scrollLeft += e.deltaY * 2; // Adjust scroll speed as needed
+            navbar.scrollLeft += e.deltaY;
         });
         // Scroll Navigation Arrows
         const navArrowLeft = document.getElementById('navArrowLeft');
