@@ -181,14 +181,14 @@
     }
     /* Toggle Theme Button */
     .toggle-theme {
-        position: fixed;
+        position: absolute;
         bottom: 20px;
         right: 20px;
         background: var(--accent-color);
         border: none;
         color: var(--bg-color);
-        padding: 10px 15px;
-        border-radius: 50%;
+        padding: 15px 15px;
+        border-radius: 0%;
         cursor: pointer;
         font-size: 1em;
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
@@ -320,7 +320,7 @@
     </div>
     <button class="nav-arrow ripple" id="navArrowRight" aria-label="Scroll Right">&#8250;</button>
 </div>
-<button class="toggle-theme ripple" id="themeButton" aria-label="Toggle Theme">Toggle Theme</button>
+<button class="toggle-theme" id="themeButton" aria-label="Toggle Theme">Toggle Theme</button>
 <button class="back-to-top" id="backToTopButton" aria-label="Back to Top">&#8679;</button>
 <div class="container visible" id="section1">
     <h1>The Beauty of Simplicity</h1>
