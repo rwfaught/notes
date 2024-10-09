@@ -117,12 +117,11 @@
         opacity: 0;
         transition: opacity 0.6s ease-out;
         z-index: 10;
+        display: none;
     }
     .visible {
         opacity: 1;
-    }
-    .faded-out {
-        opacity: 0.1;
+        display: block;
     }
     h1, h2 {
         font-weight: 300;
@@ -361,9 +360,9 @@
             // Hide all sections and make target visible
             document.querySelectorAll('.container').forEach(section => {
                 section.classList.remove('visible');
-                section.classList.add('faded-out');
+                section.style.display = 'none';
             });
-            targetSection.classList.remove('faded-out');
+            targetSection.style.display = 'block';
             targetSection.classList.add('visible');
             
             // Scroll to the target section (in case it's off screen)
