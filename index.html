@@ -362,10 +362,12 @@
                     container.style.transition = 'opacity 0.6s ease-out';
                     container.style.opacity = '0';
                     setTimeout(() => {
-                        container.style.display = 'none';
+                        container.style.visibility = 'hidden';
+                        container.style.position = 'absolute';
                     }, 600);
                 } else {
-                    container.style.display = 'block';
+                    container.style.visibility = 'visible';
+                    container.style.position = 'relative';
                     setTimeout(() => {
                         container.style.opacity = '1';
                     }, 10);
