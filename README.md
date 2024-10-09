@@ -348,6 +348,35 @@
             content.classList.toggle('open');
         });
     });
+
+    // Hide other sections when navigating
+    const navLinks = document.querySelectorAll('.nav-link');
+    navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const targetId = link.getAttribute('href').substring(1);
+            const targetSection = document.getElementById(targetId);
+            
+            containers.forEach(container => {
+                if (container !== targetSection) {
+                    container.style.transition = 'opacity 0.6s ease-out';
+                    container.style.opacity = '0';
+                    setTimeout(() => {
+                        container.style.visibility = 'hidden';
+                        container.style.position = 'absolute';
+                    }, 600);
+                } else {
+                    container.style.visibility = 'visible';
+                    container.style.position = 'relative';
+                    setTimeout(() => {
+                        container.style.opacity = '1';
+                    }, 10);
+                }
+            });
+            
+            targetSection.scrollIntoView({ behavior: 'smooth' });
+        });
+    });
 </script>
 </body>
 </html>
