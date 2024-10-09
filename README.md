@@ -34,16 +34,24 @@
         transition: background var(--transition-speed), color var(--transition-speed);
     }
     /* Navigation Bar */
-    .navbar {
+    .navbar-container {
         position: fixed;
         top: 0;
         width: 100%;
         background: var(--container-bg);
         backdrop-filter: blur(10px);
         display: flex;
-        justify-content: center;
-        padding: 10px 0;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 20px;
         z-index: 1000;
+    }
+    .navbar {
+        display: flex;
+        overflow: hidden;
+        scroll-behavior: smooth;
+        max-width: 80%;
+        white-space: nowrap;
     }
     .navbar a {
         margin: 0 15px;
@@ -51,6 +59,7 @@
         color: var(--text-color);
         font-weight: 400;
         position: relative;
+        transition: color var(--transition-speed);
     }
     .navbar a.active {
         color: var(--accent-color);
@@ -70,6 +79,24 @@
     .navbar a.active::after {
         width: 100%;
     }
+    .navbar a:hover {
+        color: var(--accent-color);
+    }
+    .nav-arrow {
+        background: none;
+        border: 2px solid var(--accent-color);
+        color: var(--accent-color);
+        padding: 8px;
+        cursor: pointer;
+        font-size: 1.2em;
+        border-radius: 8px;
+        transition: background var(--transition-speed), color var(--transition-speed), transform var(--transition-speed);
+    }
+    .nav-arrow:hover {
+        background: var(--accent-color);
+        color: var(--bg-color);
+        transform: scale(1.1);
+    }
     /* Scroll Progress Bar */
     #progressBar {
         position: fixed;
@@ -83,22 +110,40 @@
     /* Container */
     .container {
         max-width: 800px;
-        margin: 120px auto 50px auto;
+        width: 90%;
+        height: 80vh;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
         padding: 20px;
         background: var(--container-bg);
         backdrop-filter: blur(10px);
-        border-radius: 12px;
+        border-radius: 20px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
         opacity: 0;
-        transform: translateY(20px);
-        transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        transition: opacity 0.6s ease-out;
+        z-index: 10;
+        display: none;
     }
-    .container.visible {
+    .visible {
         opacity: 1;
-        transform: translateY(0);
+        display: block;
     }
     h1, h2 {
         font-weight: 300;
         color: var(--accent-color);
+        background-image: linear-gradient(45deg, var(--accent-color), #ffa7c4);
+        background-clip: text;
+        -webkit-background-clip: text;
+        color: transparent;
+    }
+    h1:hover, h2:hover {
+        animation: shimmer 1.5s infinite;
+    }
+    @keyframes shimmer {
+        0% { background-position: -500px; }
+        100% { background-position: 500px; }
     }
     p {
         line-height: 1.6;
@@ -110,6 +155,10 @@
         position: relative;
         font-weight: bold;
         color: var(--accent-color);
+        transition: color var(--transition-speed);
+    }
+    .collapsible:hover {
+        color: #ffa7c4;
     }
     .collapsible::after {
         content: '+';
@@ -139,10 +188,14 @@
         border: none;
         color: var(--bg-color);
         padding: 10px 15px;
-        border-radius: 5px;
+        border-radius: 50%;
         cursor: pointer;
         font-size: 1em;
-        transition: background var(--transition-speed), color var(--transition-speed);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        transition: background var(--transition-speed), color var(--transition-speed), transform var(--transition-speed);
+    }
+    .toggle-theme:hover {
+        transform: rotate(20deg) scale(1.1);
     }
     /* Back to Top Button */
     .back-to-top {
@@ -153,22 +206,30 @@
         border: none;
         color: var(--bg-color);
         padding: 10px 15px;
-        border-radius: 50%;
+        border-radius: 5px;
         cursor: pointer;
         font-size: 1.5em;
         display: none;
         align-items: center;
         justify-content: center;
-        transition: background var(--transition-speed), color var(--transition-speed);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        transition: background var(--transition-speed), color var(--transition-speed), transform var(--transition-speed);
     }
     .back-to-top.visible {
         display: flex;
+    }
+    .back-to-top:hover {
+        transform: scale(1.1);
     }
     /* Tooltip */
     .tooltip {
         position: relative;
         cursor: pointer;
         color: var(--accent-color);
+        transition: color var(--transition-speed);
+    }
+    .tooltip:hover {
+        color: #ffa7c4;
     }
     .tooltip::after {
         content: attr(data-tooltip);
@@ -188,11 +249,38 @@
     .tooltip:hover::after {
         opacity: 1;
     }
+    /* Ripple Effect on Buttons */
+    .ripple {
+        position: relative;
+        overflow: hidden;
+    }
+    .ripple::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+        background: rgba(255, 255, 255, 0.4);
+        transform: scale(0);
+        opacity: 0;
+        transition: transform 0.4s, opacity 0.6s;
+    }
+    .ripple:active::after {
+        transform: scale(2);
+        opacity: 1;
+        transition: 0s;
+    }
     /* Responsive Design */
     @media (max-width: 600px) {
         .container {
-            margin: 100px 20px 50px 20px;
-            padding: 15px;
+            width: 90%;
+            height: auto;
+            top: 10%;
+            transform: translate(-50%, 0);
+            position: relative;
+            margin-bottom: 20px;
         }
         .navbar a {
             margin: 0 10px;
@@ -202,21 +290,44 @@
 </head>
 <body>
 <div id="progressBar"></div>
-<nav class="navbar">
-    <a href="#section1" class="nav-link">Home</a>
-    <a href="#section2" class="nav-link">Nature</a>
-    <a href="#section3" class="nav-link">Minimalism</a>
-    <a href="#section4" class="nav-link">Mindfulness</a>
-    <a href="#section5" class="nav-link">Technology</a>
-    <a href="#section6" class="nav-link">Everyday Life</a>
-    <a href="#section7" class="nav-link">Philosophy</a>
-    <a href="#section8" class="nav-link">Well-being</a>
-</nav>
-<div class="container" id="section1">
+<div class="navbar-container">
+    <button class="nav-arrow ripple" id="navArrowLeft" aria-label="Scroll Left">&#8249;</button>
+    <div class="navbar" id="navbar">
+        <a href="#section1" class="nav-link">Home</a>
+        <a href="#section2" class="nav-link">Nature</a>
+        <a href="#section3" class="nav-link">Minimalism</a>
+        <a href="#section4" class="nav-link">Mindfulness</a>
+        <a href="#section5" class="nav-link">Technology</a>
+        <a href="#section6" class="nav-link">Everyday Life</a>
+        <a href="#section7" class="nav-link">Philosophy</a>
+        <a href="#section8" class="nav-link">Well-being</a>
+        <a href="#section9" class="nav-link">Growth</a>
+        <a href="#section10" class="nav-link">Health</a>
+        <a href="#section11" class="nav-link">Creativity</a>
+        <a href="#section12" class="nav-link">Productivity</a>
+        <a href="#section13" class="nav-link">Balance</a>
+        <a href="#section14" class="nav-link">Resilience</a>
+        <a href="#section15" class="nav-link">Sustainability</a>
+        <a href="#section16" class="nav-link">Community</a>
+        <a href="#section17" class="nav-link">Purpose</a>
+        <a href="#section18" class="nav-link">Fulfillment</a>
+        <a href="#section19" class="nav-link">Connection</a>
+        <a href="#section20" class="nav-link">Joy</a>
+        <a href="#section21" class="nav-link">Adventure</a>
+        <a href="#section22" class="nav-link">Gratitude</a>
+        <a href="#section23" class="nav-link">Empathy</a>
+        <a href="#section24" class="nav-link">Love</a>
+    </div>
+    <button class="nav-arrow ripple" id="navArrowRight" aria-label="Scroll Right">&#8250;</button>
+</div>
+<button class="toggle-theme ripple" id="themeButton" aria-label="Toggle Theme">Toggle Theme</button>
+<button class="back-to-top" id="backToTopButton" aria-label="Back to Top">&#8679;</button>
+<div class="container visible" id="section1">
     <h1>The Beauty of Simplicity</h1>
     <p>The art of finding beauty in simplicity is often overlooked in our fast-paced, detail-obsessed world. Yet, there’s something profound about simplicity—whether it’s in design, nature, or life itself. Minimalism in art or architecture, for instance, strips away the excess to reveal the core essence of a piece, allowing viewers to engage with it on a deeper level. In a similar way, simplifying our daily lives can lead to greater clarity and peace. By eliminating distractions, whether physical or mental, we make room for the things that truly matter.</p>
 </div>
 
+<!-- Additional sections added to triple the content -->
 <div class="container" id="section2">
     <h2>Nature's Simplicity</h2>
     <p>Consider nature. A single tree standing alone in a field can evoke just as much awe as a dense forest. Its branches, reaching toward the sky, don’t need companions to make a statement. Its simplicity is its strength.</p>
@@ -227,156 +338,4 @@
 </div>
 
 <div class="container" id="section3">
-    <h2>The Minimalist Movement</h2>
-    <p>There’s a reason why movements like minimalism have gained traction in recent years. In a world bombarded with stimuli, cutting down to what’s necessary can be a form of rebellion. It’s a declaration that our value doesn’t lie in the things we accumulate or the endless tasks we take on, but in who we are, how we connect with others, and the quality of experiences we choose to engage with.</p>
-</div>
-
-<div class="container" id="section4">
-    <h2>Embracing Mindfulness</h2>
-    <p>In a way, embracing simplicity is a call to <span class="tooltip" data-tooltip="Mindfulness is the practice of being aware and present in the moment.">mindfulness</span>. It’s about being present and appreciating the little things that might otherwise go unnoticed. When we’re no longer distracted by the noise, we can focus on the subtleties—the way the light filters through a window, the taste of a morning coffee, or the joy of an unhurried conversation.</p>
-</div>
-
-<div class="container" id="section5">
-    <h2>The Role of Technology in Simplicity</h2>
-    <p>In an age where technology often adds layers of complexity to our lives, it can also be a powerful tool for achieving simplicity. Thoughtfully designed tech solutions streamline tasks, reduce clutter, and help us focus on what truly matters.</p>
-    <div class="collapsible">Read More</div>
-    <div class="content">
-        <p>From minimalist apps that encourage mindfulness to smart home devices that automate mundane chores, technology, when used intentionally, can be an ally in our pursuit of simplicity.</p>
-    </div>
-</div>
-
-<div class="container" id="section6">
-    <h2>Simplicity in Everyday Life</h2>
-    <p>Embracing simplicity doesn't require drastic life changes. It can be as straightforward as decluttering a workspace, practicing gratitude, or setting aside time for reflection.</p>
-    <div class="collapsible">Read More</div>
-    <div class="content">
-        <p>These small adjustments accumulate, leading to a more centered and fulfilling life. By prioritizing what's essential, we create space for joy, creativity, and meaningful connections.</p>
-    </div>
-</div>
-
-<div class="container" id="section7">
-    <h2>The Philosophy of Minimalism</h2>
-    <p>Minimalism is more than an aesthetic; it's a mindset. Rooted in the idea that less is more, it challenges us to evaluate our relationships with possessions, habits, and even thoughts.</p>
-    <div class="collapsible">Read More</div>
-    <div class="content">
-        <p>This philosophy encourages intentionality, prompting us to make choices that align with our values and aspirations rather than societal pressures or fleeting trends.</p>
-    </div>
-</div>
-
-<div class="container" id="section8">
-    <h2>The Impact of Simplicity on Well-being</h2>
-    <p>Studies have shown that simplifying our environments and routines can significantly reduce stress and anxiety. A clear space often leads to a clear mind.</p>
-    <div class="collapsible">Read More</div>
-    <div class="content">
-        <p>By eliminating excess, we not only improve our mental health but also enhance our ability to concentrate and be productive. Simplicity fosters a sense of calm and balance, which is essential in today's hectic world.</p>
-    </div>
-</div>
-
-<button class="toggle-theme" id="themeButton" aria-label="Toggle Theme">Toggle Theme</button>
-<button class="back-to-top" id="backToTop" aria-label="Back to Top">⬆</button>
-
-<script>
-    // Theme Toggle
-    const themeButton = document.getElementById('themeButton');
-    const currentTheme = localStorage.getItem('theme') || 'light';
-    document.body.setAttribute('data-theme', currentTheme);
-
-    themeButton.addEventListener('click', () => {
-        let theme = document.body.getAttribute('data-theme');
-        if (theme === 'light') {
-            document.body.setAttribute('data-theme', 'dark');
-            localStorage.setItem('theme', 'dark');
-        } else {
-            document.body.setAttribute('data-theme', 'light');
-            localStorage.setItem('theme', 'light');
-        }
-    });
-
-    // Scroll Progress Bar and Back to Top Button
-    const progressBar = document.getElementById('progressBar');
-    const backToTop = document.getElementById('backToTop');
-    window.addEventListener('scroll', () => {
-        const totalHeight = document.body.scrollHeight - window.innerHeight;
-        const progress = (window.scrollY / totalHeight) * 100;
-        progressBar.style.width = progress + '%';
-
-        // Show or hide back to top button
-        if (window.scrollY > 300) {
-            backToTop.classList.add('visible');
-        } else {
-            backToTop.classList.remove('visible');
-        }
-
-        // Update active navigation link
-        const sections = document.querySelectorAll('.container');
-        const navLinks = document.querySelectorAll('.nav-link');
-        sections.forEach((section, index) => {
-            const rect = section.getBoundingClientRect();
-            if (rect.top <= 60 && rect.bottom >= 60) {
-                navLinks.forEach(link => link.classList.remove('active'));
-                navLinks[index].classList.add('active');
-            }
-        });
-    });
-
-    backToTop.addEventListener('click', () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-
-    // Content Load Animations
-    const containers = document.querySelectorAll('.container');
-    const observerOptions = {
-        threshold: 0.1
-    };
-    const observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-            }
-        });
-    }, observerOptions);
-    containers.forEach(container => {
-        observer.observe(container);
-    });
-
-    // Collapsible Sections
-    const collapsibles = document.querySelectorAll('.collapsible');
-    collapsibles.forEach(collapsible => {
-        collapsible.addEventListener('click', () => {
-            collapsible.classList.toggle('active');
-            const content = collapsible.nextElementSibling;
-            content.classList.toggle('open');
-        });
-    });
-
-    // Hide other sections when navigating
-    const navLinks = document.querySelectorAll('.nav-link');
-    navLinks.forEach(link => {
-        link.addEventListener('click', (e) => {
-            e.preventDefault();
-            const targetId = link.getAttribute('href').substring(1);
-            const targetSection = document.getElementById(targetId);
-            
-            containers.forEach(container => {
-                if (container !== targetSection) {
-                    container.style.transition = 'opacity 0.6s ease-out';
-                    container.style.opacity = '0';
-                    setTimeout(() => {
-                        container.style.visibility = 'hidden';
-                        container.style.position = 'absolute';
-                    }, 600);
-                } else {
-                    container.style.visibility = 'visible';
-                    container.style.position = 'relative';
-                    setTimeout(() => {
-                        container.style.opacity = '1';
-                    }, 10);
-                }
-            });
-            
-            targetSection.scrollIntoView({ behavior: 'smooth' });
-        });
-    });
-</script>
-</body>
-</html>
+    <h2>The Minimalist Movement</h2
