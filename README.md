@@ -78,7 +78,7 @@
     /* Container */
     .container {
         max-width: 800px;
-        margin: 100px auto 50px auto;
+        margin: 120px auto 50px auto;
         padding: 20px;
         background: var(--container-bg);
         backdrop-filter: blur(10px);
@@ -108,7 +108,7 @@
     /* Responsive Design */
     @media (max-width: 600px) {
         .container {
-            margin: 80px 20px 50px 20px;
+            margin: 100px 20px 50px 20px;
             padding: 15px;
         }
         .navbar a {
@@ -169,7 +169,7 @@
     <p>Studies have shown that simplifying our environments and routines can significantly reduce stress and anxiety. A clear space often leads to a clear mind. By eliminating excess, we not only improve our mental health but also enhance our ability to concentrate and be productive. Simplicity fosters a sense of calm and balance, which is essential in today's hectic world.</p>
 </div>
 
-<button class="toggle-theme" id="themeButton">Toggle Theme</button>
+<button class="toggle-theme" id="themeButton" aria-label="Toggle Theme">Toggle Theme</button>
 
 <script>
     // Theme Toggle
