@@ -48,7 +48,7 @@
     }
     .navbar {
         display: flex;
-        overflow: hidden;
+        overflow-x: auto;
         scroll-behavior: smooth;
         max-width: 80%;
         white-space: nowrap;
@@ -111,24 +111,23 @@
     .container {
         max-width: 800px;
         width: 90%;
-        height: 80vh;
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+        height: auto;
+        margin: 150px auto 50px auto;
         padding: 20px;
         background: var(--container-bg);
         backdrop-filter: blur(10px);
         border-radius: 20px;
         box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
         opacity: 0;
-        transition: opacity 0.6s ease-out;
+        transform: translateY(20px);
+        transition: opacity 0.6s ease-out, transform 0.6s ease-out;
         z-index: 10;
         display: none;
     }
     .visible {
         opacity: 1;
         display: block;
+        transform: translateY(0);
     }
     h1, h2 {
         font-weight: 300;
@@ -348,4 +347,107 @@
 
 <div class="container" id="section5">
     <h2>The Role of Technology in Simplicity</h2>
-    <p>In an age where technology often adds layers of complexity to our lives, it can also be a powerful tool for achieving simplicity. Thoughtfully designed tech solutions streamline tasks, reduce clutter, and help us focus on what truly matters.</
+    <p>In an age where technology often adds layers of complexity to our lives, it can also be a powerful tool for achieving simplicity. Thoughtfully designed tech solutions streamline tasks, reduce clutter, and help us focus on what truly matters.</p>
+    <div class="collapsible">Read More</div>
+    <div class="content">
+        <p>From minimalist apps that encourage mindfulness to smart home devices that automate mundane chores, technology, when used intentionally, can be an ally in our pursuit of simplicity.</p>
+    </div>
+</div>
+
+<div class="container" id="section6">
+    <h2>Simplicity in Everyday Life</h2>
+    <p>Embracing simplicity doesn't require drastic life changes. It can be as straightforward as decluttering a workspace, practicing gratitude, or setting aside time for reflection.</p>
+    <div class="collapsible">Read More</div>
+    <div class="content">
+        <p>These small adjustments accumulate, leading to a more centered and fulfilling life. By prioritizing what's essential, we create space for joy, creativity, and meaningful connections.</p>
+    </div>
+</div>
+
+<script>
+    // Theme Toggle
+    const themeButton = document.getElementById('themeButton');
+    const currentTheme = localStorage.getItem('theme') || 'light';
+    document.body.setAttribute('data-theme', currentTheme);
+
+    themeButton.addEventListener('click', () => {
+        let theme = document.body.getAttribute('data-theme');
+        if (theme === 'light') {
+            document.body.setAttribute('data-theme', 'dark');
+            localStorage.setItem('theme', 'dark');
+        } else {
+            document.body.setAttribute('data-theme', 'light');
+            localStorage.setItem('theme', 'light');
+        }
+    });
+
+    // Scroll Progress Bar and Back to Top Button
+    const progressBar = document.getElementById('progressBar');
+    const backToTop = document.createElement('button');
+    backToTop.id = 'backToTop';
+    backToTop.className = 'back-to-top';
+    backToTop.innerText = '⬆';
+    document.body.appendChild(backToTop);
+
+    window.addEventListener('scroll', () => {
+        const totalHeight = document.body.scrollHeight - window.innerHeight;
+        const progress = (window.scrollY / totalHeight) * 100;
+        progressBar.style.width = progress + '%';
+
+        // Show or hide back to top button
+        if (window.scrollY > 300) {
+            backToTop.classList.add('visible');
+        } else {
+            backToTop.classList.remove('visible');
+        }
+    });
+
+    backToTop.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Hide other sections when navigating
+    const navLinks = document.querySelectorAll('.nav-link');
+    navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const targetId = link.getAttribute('href').substring(1);
+            const targetSection = document.getElementById(targetId);
+            
+            // Hide all sections and make target visible
+            document.querySelectorAll('.container').forEach(section => {
+                section.classList.remove('visible');
+            });
+            targetSection.classList.add('visible');
+            
+            // Scroll to the target section
+            targetSection.scrollIntoView({ behavior: 'smooth' });
+            
+            // Update active link
+            navLinks.forEach(navLink => navLink.classList.remove('active'));
+            link.classList.add('active');
+        });
+    });
+
+    // Navigation bar scroll buttons
+    const navbar = document.getElementById('navbar');
+    const navArrowLeft = document.getElementById('navArrowLeft');
+    const navArrowRight = document.getElementById('navArrowRight');
+
+    navArrowLeft.addEventListener('click', () => {
+        navbar.scrollBy({ left: -200, behavior: 'smooth' });
+    });
+
+    navArrowRight.addEventListener('click', () => {
+        navbar.scrollBy({ left: 200, behavior: 'smooth' });
+    });
+
+    // Mouse scroll wheel to navigate the navbar
+    navbar.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        navbar.scrollBy({ left: e.deltaY < 0 ? -100 : 100, behavior: 'smooth' });
+    });
+
+    // Collapsible sections logic
+    const collapsibles = document.querySelectorAll('.collapsible');
+    collapsibles.forEach(collapsible => {
+        collapsible.addEventListener('click',
