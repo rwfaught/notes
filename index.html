@@ -354,6 +354,12 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', () => {
+        // Scroll Navigation using Mouse Wheel
+        const navbar = document.getElementById('navbar');
+        navbar.addEventListener('wheel', (e) => {
+            e.preventDefault();
+            navbar.scrollLeft += e.deltaY;
+        });
         // Scroll Navigation Arrows
         const navArrowLeft = document.getElementById('navArrowLeft');
         const navArrowRight = document.getElementById('navArrowRight');
